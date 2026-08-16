@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Eye, EyeOff, Lock, User, ArrowRight, X } from "lucide-react";
+import Dashboard from "@/Dashboard";
 import "@/App.css";
 
 const DEMO_EMPLOYEE = "BM-2024-001";
@@ -12,6 +13,7 @@ function App() {
   const [remember, setRemember] = useState(false);
   const [message, setMessage] = useState(null);
   const [forgotOpen, setForgotOpen] = useState(false);
+  const [authed, setAuthed] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,10 +23,15 @@ function App() {
     }
     if (employeeNo === DEMO_EMPLOYEE && password === DEMO_PASSWORD) {
       setMessage({ type: "success", text: "Welcome to your Budget Mitra dashboard." });
+      setTimeout(() => setAuthed(true), 450);
       return;
     }
     setMessage({ type: "error", text: "Invalid credentials. Try BM-2024-001 / budgetmitra." });
   };
+
+  if (authed) {
+    return <Dashboard onLogout={() => { setAuthed(false); setEmployeeNo(""); setPassword(""); setMessage(null); }} />;
+  }
 
   return (
     <div className="page-root" data-testid="login-page">
