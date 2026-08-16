@@ -20,7 +20,7 @@
   "seed_data_creation": "",
   "retest_needed": false,
   "should_main_agent_self_test": true,
-  "context_for_next_testing_agent": "Public URL tested: https://signin-interface-11.preview.emergentagent.com. Desktop and mobile flows passed: page load, text entry, password visibility, remember me, forgot modal open/close, demo fill, success, invalid/empty errors, and mobile overflow.",
+  "context_for_next_testing_agent": "Public URL tested: https://git-portal-3.preview.emergentagent.com. Desktop and mobile flows passed: page load, text entry, password visibility, remember me, forgot modal open/close, demo fill, success, invalid/empty errors, and mobile overflow.",
   "test_credentials": "No credentials available in /app/memory/test_credentials.md; no credentials were needed because the flow is demo-only.",
   "rca of the issue": "No functional issue reproduced. The implementation validates BM-2024-001 / budgetmitra locally in App.js and does not make an authentication API request, as specified."
 }
