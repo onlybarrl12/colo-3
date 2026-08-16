@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Eye, EyeOff, LockKeyhole, UserRound, ArrowRight, CheckCircle2, X } from "lucide-react";
+import { Eye, EyeOff, Lock, User, ArrowRight, X } from "lucide-react";
 import "@/App.css";
 
 const DEMO_EMPLOYEE = "BM-2024-001";
@@ -10,96 +10,228 @@ function App() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [remember, setRemember] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState(null);
   const [forgotOpen, setForgotOpen] = useState(false);
 
-  const fillDemo = () => {
-    setEmployeeNo(DEMO_EMPLOYEE);
-    setPassword(DEMO_PASSWORD);
-    setMessage("");
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
     if (!employeeNo.trim() || !password.trim()) {
-      setMessage("Please enter your employee number and password.");
+      setMessage({ type: "error", text: "Please enter your employee number and password." });
       return;
     }
-    if (employeeNo !== DEMO_EMPLOYEE || password !== DEMO_PASSWORD) {
-      setMessage("For this demo, use the quick demo credentials below.");
+    if (employeeNo === DEMO_EMPLOYEE && password === DEMO_PASSWORD) {
+      setMessage({ type: "success", text: "Welcome to your Budget Mitra dashboard." });
       return;
     }
-    setMessage("Welcome to your Budget Mitra dashboard.");
+    setMessage({ type: "error", text: "Invalid credentials. Try BM-2024-001 / budgetmitra." });
   };
 
   return (
-    <main className="login-shell" data-testid="login-page">
-      <section className="brand-panel" data-testid="brand-panel">
-        <div className="brand-content">
-          <div className="sprint-mark" data-testid="sprint-brand">
-            <span className="sprint-runner">➤</span><span>SPRINT</span><small>MISSION EXCELLENCE</small>
-          </div>
-          <div className="budget-brand" data-testid="budget-mitra-brand">
-            <div className="rupee-emblem">₹</div>
-            <h1><span>BUDGET</span> <b>MITRA</b></h1>
-            <div className="hindi-line"><i /> बजट मित्र <i /></div>
-            <p>SERPL Revenue Budget<br />Preparation &amp; Approval System</p>
-            <strong><em /> SERPL <em /></strong>
-          </div>
-        </div>
-        <div className="message-card" data-testid="leadership-message">
-          <div className="portrait" aria-label="Leadership portrait">SR</div>
-          <div>
-            <h2>Message from ED &amp; RH, SERPL</h2>
-            <p>At SERPL, we are committed to transparent, efficient and value-driven budgeting to build a stronger tomorrow. Let’s plan responsibly and progress together.</p>
-            <strong>— ED &amp; RH, SERPL</strong>
-          </div>
-        </div>
-        <div className="plant-caption" data-testid="plant-caption">Powering responsible growth through disciplined planning</div>
-      </section>
-
-      <section className="form-panel" data-testid="authentication-panel">
-        <div className="login-card">
-          <div className="card-heading">
-            <h2 data-testid="welcome-heading">Welcome <span>Back!</span></h2>
-            <div className="heading-rule" />
-            <p data-testid="login-subtitle">Sign in to continue to your dashboard</p>
-          </div>
-          <form onSubmit={handleSubmit} noValidate data-testid="login-form">
-            <label className="field-wrap" data-testid="employee-field">
-              <UserRound size={25} strokeWidth={1.8} aria-hidden="true" />
-              <input aria-label="Employee number" data-testid="employee-number-input" value={employeeNo} onChange={(e) => setEmployeeNo(e.target.value)} placeholder="Employee No." autoComplete="username" />
-            </label>
-            <label className="field-wrap" data-testid="password-field">
-              <LockKeyhole size={25} strokeWidth={1.8} aria-hidden="true" />
-              <input aria-label="Password" data-testid="password-input" type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" autoComplete="current-password" />
-              <button type="button" className="icon-button" aria-label={showPassword ? "Hide password" : "Show password"} data-testid="password-visibility-button" onClick={() => setShowPassword(!showPassword)}>{showPassword ? <EyeOff size={25} /> : <Eye size={25} />}</button>
-            </label>
-            <div className="form-options">
-              <label className="remember-control" data-testid="remember-me-control">
-                <input type="checkbox" data-testid="remember-me-checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} />
-                <span className="fake-checkbox" />
-                <span>Remember me</span>
-              </label>
-              <button type="button" className="forgot-link" data-testid="forgot-password-button" onClick={() => setForgotOpen(true)}>Forgot Password?</button>
+    <div className="page-root" data-testid="login-page">
+      {/* Top header bar */}
+      <header className="top-header" data-testid="top-header">
+        <div className="header-left">
+          <div className="iol-logo" aria-label="IndianOil logo">
+            <div className="iol-mark">
+              <span className="iol-hindi">इंडियनऑयल</span>
             </div>
-            <button type="submit" className="login-button" data-testid="login-submit-button">LOGIN <ArrowRight size={25} strokeWidth={1.7} /></button>
-            <button type="button" className="demo-link" data-testid="demo-credentials-button" onClick={fillDemo}>Use demo credentials</button>
-            {message && <div className={`form-message ${message.startsWith("Welcome") ? "success" : "error"}`} role="status" data-testid="login-status-message">{message.startsWith("Welcome") && <CheckCircle2 size={17} />} {message}</div>}
-          </form>
+          </div>
+          <div className="iol-title">
+            <div className="iol-title-main">IndianOil</div>
+            <div className="iol-title-sub">The Energy Of India</div>
+          </div>
         </div>
-        <footer data-testid="portal-footer">© 2025 SERPL · Budget Mitra Portal</footer>
-      </section>
+        <div className="header-right">
+          <div className="sprint-block">
+            <div className="sprint-runner" aria-hidden="true">
+              <svg viewBox="0 0 64 64" width="46" height="46">
+                <g fill="#E97F3A">
+                  <circle cx="46" cy="12" r="5"/>
+                  <path d="M38 22 L48 22 L52 30 L58 32 L56 36 L48 34 L44 42 L50 52 L46 56 L38 46 L32 42 L24 52 L20 50 L28 40 L26 32 L18 34 L14 30 L22 26 Z"/>
+                </g>
+                <g fill="#E97F3A" opacity="0.55">
+                  <circle cx="14" cy="30" r="1.6"/>
+                  <circle cx="10" cy="36" r="1.6"/>
+                  <circle cx="6" cy="42" r="1.6"/>
+                  <circle cx="16" cy="42" r="1.6"/>
+                  <circle cx="10" cy="48" r="1.6"/>
+                  <circle cx="20" cy="46" r="1.6"/>
+                </g>
+              </svg>
+            </div>
+            <div className="sprint-text">
+              <div className="sprint-word">SPRINT</div>
+              <div className="sprint-tag">A Transformational Project</div>
+            </div>
+          </div>
+          <div className="header-iol-small" aria-label="IndianOil small logo">
+            <div className="iol-mark small">
+              <span className="iol-hindi">इंडियनऑयल</span>
+            </div>
+            <div className="header-iol-small-text">IndianOil</div>
+          </div>
+        </div>
+      </header>
 
-      {forgotOpen && <div className="modal-backdrop" data-testid="forgot-password-modal">
-        <div className="forgot-modal" role="dialog" aria-modal="true" aria-labelledby="forgot-title">
-          <button className="modal-close" data-testid="forgot-modal-close" aria-label="Close forgot password dialog" onClick={() => setForgotOpen(false)}><X size={20} /></button>
-          <h2 id="forgot-title">Need a reset?</h2>
-          <p>Please contact your SERPL administrator to reset your portal password.</p>
-          <button className="modal-action" data-testid="forgot-modal-dismiss" onClick={() => setForgotOpen(false)}>Got it</button>
+      <main className="login-shell">
+        {/* Left panel */}
+        <section className="brand-panel" data-testid="brand-panel">
+          <div className="brand-inner">
+            <div className="budget-brand" data-testid="budget-mitra-brand">
+              <div className="rupee-badge" aria-hidden="true">
+                <svg viewBox="0 0 200 200" width="180" height="180">
+                  <defs>
+                    <linearGradient id="arrowGrad" x1="0" y1="1" x2="1" y2="0">
+                      <stop offset="0%" stopColor="#F0A75B"/>
+                      <stop offset="100%" stopColor="#E5651C"/>
+                    </linearGradient>
+                  </defs>
+                  {/* purple ring */}
+                  <circle cx="100" cy="100" r="82" fill="none" stroke="#5E3F97" strokeWidth="8"/>
+                  {/* upward arrow line graph */}
+                  <path d="M40 145 L80 115 L110 135 L165 65" fill="none" stroke="url(#arrowGrad)" strokeWidth="18" strokeLinecap="round" strokeLinejoin="round"/>
+                  {/* arrow head */}
+                  <path d="M165 65 L138 60 L155 90 Z" fill="#E5651C"/>
+                  {/* rupee symbol */}
+                  <text x="112" y="70" fontFamily="'Plus Jakarta Sans', sans-serif" fontWeight="800" fontSize="46" fill="#5E3F97">₹</text>
+                </svg>
+              </div>
+              <h1 className="budget-title">
+                <span className="bt-blue">BUDGET</span>
+                <span className="bt-orange"> MITRA</span>
+              </h1>
+              <div className="hindi-divider" />
+              <div className="hindi-title">
+                <span className="hindi-blue">बजट</span>
+                <span className="hindi-orange"> मित्र</span>
+              </div>
+              <p className="sys-line">SERPL Revenue Budget<br/>Preparation &amp; Approval System</p>
+              <div className="serpl-row">
+                <span className="serpl-line purple" />
+                <span className="serpl-text">SERPL</span>
+                <span className="serpl-line orange" />
+              </div>
+            </div>
+
+            <div className="message-card" data-testid="leadership-message">
+              <div className="portrait" aria-label="Leadership avatar">
+                <User size={36} strokeWidth={2} color="#ffffff" />
+              </div>
+              <div className="msg-body">
+                <h2>Message from ED &amp; RH, SERPL</h2>
+                <div className="msg-rule" />
+                <p>At SERPL, we are committed to transparent, efficient and value-driven budgeting to build a stronger tomorrow.</p>
+                <p>Let's plan responsibly and progress together.</p>
+                <strong>— ED &amp; RH, SERPL</strong>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Right panel */}
+        <section className="form-panel" data-testid="authentication-panel">
+          <div className="login-card">
+            <h2 className="welcome-heading" data-testid="welcome-heading">
+              <span className="wh-blue">Welcome</span> <span className="wh-orange">Back!</span>
+            </h2>
+            <div className="welcome-rule" />
+            <p className="welcome-sub" data-testid="login-subtitle">Sign in to continue to your dashboard</p>
+
+            <form onSubmit={handleSubmit} noValidate data-testid="login-form">
+              <label className="field-wrap" data-testid="employee-field">
+                <User size={22} strokeWidth={1.8} className="field-icon" />
+                <input
+                  aria-label="Employee number"
+                  data-testid="employee-number-input"
+                  value={employeeNo}
+                  onChange={(e) => setEmployeeNo(e.target.value)}
+                  placeholder="Employee No."
+                  autoComplete="username"
+                />
+              </label>
+
+              <label className="field-wrap" data-testid="password-field">
+                <Lock size={22} strokeWidth={1.8} className="field-icon" />
+                <input
+                  aria-label="Password"
+                  data-testid="password-input"
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Password"
+                  autoComplete="current-password"
+                />
+                <button
+                  type="button"
+                  className="eye-button"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  data-testid="password-visibility-button"
+                  onClick={() => setShowPassword((s) => !s)}
+                >
+                  {showPassword ? <EyeOff size={22} /> : <Eye size={22} />}
+                </button>
+              </label>
+
+              <div className="form-row">
+                <label className="remember-control" data-testid="remember-me-control">
+                  <input
+                    type="checkbox"
+                    data-testid="remember-me-checkbox"
+                    checked={remember}
+                    onChange={(e) => setRemember(e.target.checked)}
+                  />
+                  <span className="fake-box" />
+                  <span className="remember-text">Remember me</span>
+                </label>
+                <button
+                  type="button"
+                  className="forgot-link"
+                  data-testid="forgot-password-button"
+                  onClick={() => setForgotOpen(true)}
+                >
+                  Forgot Password?
+                </button>
+              </div>
+
+              <button type="submit" className="login-btn" data-testid="login-submit-button">
+                <span>LOGIN</span>
+                <ArrowRight size={22} strokeWidth={2.2} />
+              </button>
+
+              {message && (
+                <div
+                  className={`form-message ${message.type}`}
+                  role="status"
+                  data-testid="login-status-message"
+                >
+                  {message.text}
+                </div>
+              )}
+            </form>
+          </div>
+        </section>
+      </main>
+
+      {forgotOpen && (
+        <div className="modal-backdrop" data-testid="forgot-password-modal" onClick={() => setForgotOpen(false)}>
+          <div className="forgot-modal" role="dialog" aria-modal="true" onClick={(e) => e.stopPropagation()}>
+            <button
+              className="modal-close"
+              data-testid="forgot-modal-close"
+              aria-label="Close forgot password dialog"
+              onClick={() => setForgotOpen(false)}
+            >
+              <X size={20} />
+            </button>
+            <h2>Need a reset?</h2>
+            <p>Please contact your SERPL administrator to reset your portal password.</p>
+            <button className="modal-action" data-testid="forgot-modal-dismiss" onClick={() => setForgotOpen(false)}>
+              Got it
+            </button>
+          </div>
         </div>
-      </div>}
-    </main>
+      )}
+    </div>
   );
 }
 
