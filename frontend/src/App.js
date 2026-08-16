@@ -128,10 +128,18 @@ function App() {
 
       <main
         className="login-shell"
-        style={{
-          backgroundImage: `linear-gradient(120deg, rgba(94,63,151,0.72) 0%, rgba(120,72,158,0.55) 30%, rgba(196,105,90,0.5) 60%, rgba(233,127,58,0.6) 100%), url(${process.env.PUBLIC_URL}/logos/tank-farm.jpg)`,
-        }}
       >
+        {/* Decorative theme background */}
+        <div className="bg-scene" aria-hidden="true">
+          <div className="bg-grid" />
+          <div className="bg-blob bg-blob-1" />
+          <div className="bg-blob bg-blob-2" />
+          <div className="bg-blob bg-blob-3" />
+          <div className="bg-glow" />
+          <div className="bg-lines">
+            <span /><span /><span /><span /><span /><span />
+          </div>
+        </div>
         {/* Left panel */}
         <section className="brand-panel" data-testid="brand-panel">
           <div className="brand-inner">

@@ -55,16 +55,90 @@ body{
 
 /* ============ Main login shell ============ */
 .login-shell{
-  flex:1;
-  display:grid;
+  flex:1;display:grid;
   grid-template-columns:minmax(0, 1.05fr) minmax(460px, 0.95fr);
-  position:relative;
-  isolation:isolate;
-  background-color:#5E3F97;
-  background-blend-mode:normal;
-  background-position:center 45%;
-  background-size:cover;
-  background-repeat:no-repeat;
+  position:relative;isolation:isolate;overflow:hidden;
+  background:
+    radial-gradient(1200px 700px at 12% 18%, #4E2E86 0%, transparent 65%),
+    radial-gradient(900px 600px at 88% 82%, #E97F3A 0%, transparent 60%),
+    radial-gradient(700px 500px at 60% 30%, #6C46A5 0%, transparent 65%),
+    linear-gradient(135deg, #1A1147 0%, #2A1D66 40%, #4E2E86 100%);
+}
+
+/* Decorative background layers */
+.bg-scene{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.bg-grid{
+  position:absolute;inset:-2px;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size:56px 56px;
+  mask-image:radial-gradient(ellipse at 30% 40%, black 20%, transparent 75%);
+  -webkit-mask-image:radial-gradient(ellipse at 30% 40%, black 20%, transparent 75%);
+  animation:grid-drift 40s linear infinite;
+}
+@keyframes grid-drift{
+  from{background-position:0 0, 0 0}
+  to  {background-position:112px 112px, 112px 112px}
+}
+
+.bg-blob{
+  position:absolute;border-radius:50%;filter:blur(80px);opacity:0.55;
+  will-change:transform;
+}
+.bg-blob-1{
+  width:520px;height:520px;left:-120px;top:-140px;
+  background:radial-gradient(circle,#8A5CD6 0%, transparent 70%);
+  animation:blob-a 18s ease-in-out infinite alternate;
+}
+.bg-blob-2{
+  width:620px;height:620px;right:-160px;bottom:-180px;
+  background:radial-gradient(circle,#E97F3A 0%, transparent 70%);
+  animation:blob-b 22s ease-in-out infinite alternate;
+}
+.bg-blob-3{
+  width:440px;height:440px;left:38%;top:55%;
+  background:radial-gradient(circle,#3C2A82 0%, transparent 70%);
+  animation:blob-c 26s ease-in-out infinite alternate;
+}
+@keyframes blob-a{from{transform:translate(0,0) scale(1)}to{transform:translate(80px,60px) scale(1.15)}}
+@keyframes blob-b{from{transform:translate(0,0) scale(1)}to{transform:translate(-60px,-40px) scale(1.1)}}
+@keyframes blob-c{from{transform:translate(0,0) scale(1)}to{transform:translate(-90px,-70px) scale(1.2)}}
+
+.bg-glow{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(400px 400px at 25% 20%, rgba(255,220,180,0.12), transparent 60%),
+    radial-gradient(500px 500px at 78% 78%, rgba(233,127,58,0.14), transparent 60%);
+  mix-blend-mode:screen;
+}
+
+.bg-lines{position:absolute;inset:0;overflow:hidden}
+.bg-lines span{
+  position:absolute;display:block;
+  width:2px;height:120px;
+  background:linear-gradient(180deg, transparent 0%, rgba(255,220,180,0.55) 50%, transparent 100%);
+  border-radius:2px;
+  animation:shooting-line 8s linear infinite;
+  opacity:0;
+}
+.bg-lines span:nth-child(1){left:12%; animation-delay:0s}
+.bg-lines span:nth-child(2){left:28%; animation-delay:1.6s}
+.bg-lines span:nth-child(3){left:44%; animation-delay:3.2s}
+.bg-lines span:nth-child(4){left:60%; animation-delay:5s}
+.bg-lines span:nth-child(5){left:74%; animation-delay:2.4s}
+.bg-lines span:nth-child(6){left:88%; animation-delay:6.4s}
+@keyframes shooting-line{
+  0%{transform:translateY(-140px);opacity:0}
+  15%{opacity:1}
+  85%{opacity:1}
+  100%{transform:translateY(115vh);opacity:0}
+}
+
+.brand-panel, .form-panel{position:relative;z-index:1}
+
+@media (prefers-reduced-motion: reduce){
+  .bg-grid,.bg-blob,.bg-lines span{animation:none !important}
 }
 .login-shell::before{
   content:"";
