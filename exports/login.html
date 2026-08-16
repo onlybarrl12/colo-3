@@ -1,23 +1,4 @@
-import base64, os
-
-ROOT = '/app/frontend/public/logos'
-
-def b64(name):
-    with open(os.path.join(ROOT, name), 'rb') as f:
-        return base64.b64encode(f.read()).decode()
-
-def datauri(name, mime):
-    return f'data:{mime};base64,{b64(name)}'
-
-D = {
-    'IOL':    datauri('indianoil.png', 'image/png'),
-    'SPRINT': datauri('sprint.png',    'image/png'),
-    'EMBLEM': datauri('emblem.png',    'image/png'),
-    'TANK':   datauri('tank-farm.jpg', 'image/jpeg'),
-    'ED':     datauri('ed-photo.jpg',  'image/jpeg'),
-}
-
-TEMPLATE = r'''<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
@@ -63,7 +44,7 @@ body{
   background-size:cover;background-repeat:no-repeat;
   background-image:
     linear-gradient(120deg,rgba(94,63,151,.72) 0%,rgba(120,72,158,.55) 30%,rgba(196,105,90,.5) 60%,rgba(233,127,58,.6) 100%),
-    url('__TANK__');
+    url('logos/tank-farm.jpg');
 }
 
 /* Brand panel */
@@ -167,15 +148,15 @@ body{
 <body>
 <div class="page-root">
   <header class="top-header">
-    <div class="header-left"><img src="__IOL__" alt="IndianOil" class="brand-img brand-img-iol"/></div>
-    <div class="header-right"><img src="__SPRINT__" alt="SPRINT" class="brand-img brand-img-sprint"/></div>
+    <div class="header-left"><img src="logos/indianoil.png" alt="IndianOil" class="brand-img brand-img-iol"/></div>
+    <div class="header-right"><img src="logos/sprint.png" alt="SPRINT" class="brand-img brand-img-sprint"/></div>
   </header>
 
   <main class="login-shell">
     <section class="brand-panel">
       <div class="brand-inner">
         <div class="budget-brand">
-          <div class="rupee-badge"><img src="__EMBLEM__" alt="Budget Mitra emblem" class="rupee-emblem"/></div>
+          <div class="rupee-badge"><img src="logos/emblem.png" alt="Budget Mitra emblem" class="rupee-emblem"/></div>
           <h1 class="budget-title"><span class="bt-blue">BUDGET</span><span class="bt-orange"> MITRA</span></h1>
           <div class="hindi-divider"></div>
           <div class="hindi-title"><span class="hindi-blue">बजट</span><span class="hindi-orange"> मित्र</span></div>
@@ -189,7 +170,7 @@ body{
 
         <div class="message-card">
           <div class="portrait-wrap">
-            <div class="portrait"><img id="edPortrait" src="__ED__" alt="ED & RH, SERPL" class="portrait-img"/></div>
+            <div class="portrait"><img id="edPortrait" src="logos/ed-photo.jpg" alt="ED & RH, SERPL" class="portrait-img"/></div>
             <button type="button" class="portrait-edit" id="openPhotoInput" title="Change photo" aria-label="Change photo">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
             </button>
@@ -403,78 +384,3 @@ body{
 </script>
 </body>
 </html>
-'''
-
-out = TEMPLATE
-for k,v in D.items():
-    out = out.replace(f'__{k}__', v)
-
-with open('/app/standalone_login.html', 'w') as f:
-    f.write(out)
-
-# Also write a version with relative /logos paths (for the ZIP with folder layout)
-tpl_rel = TEMPLATE
-rel_paths = {
-  'IOL':    'logos/indianoil.png',
-  'SPRINT': 'logos/sprint.png',
-  'EMBLEM': 'logos/emblem.png',
-  'TANK':   'logos/tank-farm.jpg',
-  'ED':     'logos/ed-photo.jpg',
-}
-for k,v in rel_paths.items():
-    tpl_rel = tpl_rel.replace(f'__{k}__', v)
-
-os.makedirs('/app/exports', exist_ok=True)
-os.makedirs('/app/exports/logos', exist_ok=True)
-# copy logos
-import shutil
-for f in os.listdir(ROOT):
-    shutil.copy(os.path.join(ROOT, f), os.path.join('/app/exports/logos', f))
-with open('/app/exports/login.html', 'w') as f:
-    f.write(tpl_rel)
-shutil.copy('/app/standalone_login.html', '/app/exports/login-standalone.html')
-
-readme = """BUDGET MITRA — SERPL Login Page (Sample #2)
-=============================================
-
-Two ways to open the page:
-
-1. login-standalone.html
-   Single self-contained HTML file (images embedded as base64).
-   Double-click it — opens anywhere.
-
-2. login.html + logos/
-   login.html loads images from the logos/ folder next to it.
-   Easier to edit — swap any image without touching HTML.
-   Keep both together in the same folder when opening.
-
-Demo credentials
-----------------
-Employee No.: BM-2024-001
-Password:     budgetmitra
-
-Admin controls on the login page
---------------------------------
-• Camera icon on the ED & RH avatar → upload a new portrait photo.
-• Pencil icon next to the message heading → edit heading, body text
-  and signature inline; click Save (all changes persist in the browser).
-• "Reset photo" and "Reset text" links appear only when custom
-  values are set — click to revert to defaults.
-"""
-
-with open('/app/exports/README.txt', 'w') as f:
-    f.write(readme)
-
-# Build the ZIP
-import zipfile
-zip_path = '/app/login_page.zip'
-if os.path.exists(zip_path): os.remove(zip_path)
-with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as z:
-    for root, dirs, files in os.walk('/app/exports'):
-        for name in files:
-            full = os.path.join(root, name)
-            arc  = os.path.relpath(full, '/app/exports')
-            z.write(full, arc)
-
-for p in [zip_path, '/app/standalone_login.html']:
-    print(p, os.path.getsize(p)//1024, 'KB')
