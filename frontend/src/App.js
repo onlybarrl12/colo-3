@@ -1,10 +1,11 @@
-import { useState } from "react";
-import { Eye, EyeOff, Lock, User, ArrowRight, X } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { Eye, EyeOff, Lock, User, ArrowRight, X, Camera } from "lucide-react";
 import Dashboard from "@/Dashboard";
 import "@/App.css";
 
 const DEMO_EMPLOYEE = "BM-2024-001";
 const DEMO_PASSWORD = "budgetmitra";
+const DEFAULT_ED_PHOTO = "/logos/ed-photo.jpg";
 
 function App() {
   const [employeeNo, setEmployeeNo] = useState("");
@@ -14,6 +15,31 @@ function App() {
   const [message, setMessage] = useState(null);
   const [forgotOpen, setForgotOpen] = useState(false);
   const [authed, setAuthed] = useState(false);
+  const [edPhoto, setEdPhoto] = useState(DEFAULT_ED_PHOTO);
+  const fileInputRef = useRef(null);
+
+  // Persist chosen ED photo across reloads
+  useEffect(() => {
+    const stored = localStorage.getItem("bm_ed_photo");
+    if (stored) setEdPhoto(stored);
+  }, []);
+
+  const handlePhotoChange = (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const dataUrl = ev.target.result;
+      setEdPhoto(dataUrl);
+      try { localStorage.setItem("bm_ed_photo", dataUrl); } catch (_) {}
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const resetPhoto = () => {
+    setEdPhoto(DEFAULT_ED_PHOTO);
+    localStorage.removeItem("bm_ed_photo");
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -53,7 +79,12 @@ function App() {
         </div>
       </header>
 
-      <main className="login-shell">
+      <main
+        className="login-shell"
+        style={{
+          backgroundImage: `linear-gradient(120deg, rgba(94,63,151,0.72) 0%, rgba(120,72,158,0.55) 30%, rgba(196,105,90,0.5) 60%, rgba(233,127,58,0.6) 100%), url(${process.env.PUBLIC_URL}/logos/tank-farm.jpg)`,
+        }}
+      >
         {/* Left panel */}
         <section className="brand-panel" data-testid="brand-panel">
           <div className="brand-inner">
@@ -83,15 +114,52 @@ function App() {
             </div>
 
             <div className="message-card" data-testid="leadership-message">
-              <div className="portrait" aria-label="Leadership avatar">
-                <User size={36} strokeWidth={2} color="#ffffff" />
+              <div className="portrait-wrap">
+                <div className="portrait" aria-label="ED & RH portrait">
+                  <img
+                    src={edPhoto}
+                    alt="ED & RH, SERPL"
+                    className="portrait-img"
+                    data-testid="ed-portrait"
+                  />
+                </div>
+                <button
+                  type="button"
+                  className="portrait-edit"
+                  onClick={() => fileInputRef.current && fileInputRef.current.click()}
+                  aria-label="Change ED & RH photo"
+                  data-testid="change-ed-photo-button"
+                  title="Change photo"
+                >
+                  <Camera size={13} strokeWidth={2.2} />
+                </button>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handlePhotoChange}
+                  style={{ display: "none" }}
+                  data-testid="ed-photo-input"
+                />
               </div>
               <div className="msg-body">
                 <h2>Message from ED &amp; RH, SERPL</h2>
                 <div className="msg-rule" />
                 <p>At SERPL, we are committed to transparent, efficient and value-driven budgeting to build a stronger tomorrow.</p>
                 <p>Let's plan responsibly and progress together.</p>
-                <strong>— ED &amp; RH, SERPL</strong>
+                <div className="msg-footer">
+                  <strong>— ED &amp; RH, SERPL</strong>
+                  {edPhoto !== DEFAULT_ED_PHOTO && (
+                    <button
+                      type="button"
+                      className="reset-photo"
+                      onClick={resetPhoto}
+                      data-testid="reset-ed-photo-button"
+                    >
+                      Reset photo
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           </div>
