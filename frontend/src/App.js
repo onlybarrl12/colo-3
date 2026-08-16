@@ -59,22 +59,11 @@ function App() {
           <div className="brand-inner">
             <div className="budget-brand" data-testid="budget-mitra-brand">
               <div className="rupee-badge" aria-hidden="true">
-                <svg viewBox="0 0 200 200" width="180" height="180">
-                  <defs>
-                    <linearGradient id="arrowGrad" x1="0" y1="1" x2="1" y2="0">
-                      <stop offset="0%" stopColor="#F0A75B"/>
-                      <stop offset="100%" stopColor="#E5651C"/>
-                    </linearGradient>
-                  </defs>
-                  {/* purple ring */}
-                  <circle cx="100" cy="100" r="82" fill="none" stroke="#5E3F97" strokeWidth="8"/>
-                  {/* upward arrow line graph */}
-                  <path d="M40 145 L80 115 L110 135 L165 65" fill="none" stroke="url(#arrowGrad)" strokeWidth="18" strokeLinecap="round" strokeLinejoin="round"/>
-                  {/* arrow head */}
-                  <path d="M165 65 L138 60 L155 90 Z" fill="#E5651C"/>
-                  {/* rupee symbol */}
-                  <text x="112" y="70" fontFamily="'Plus Jakarta Sans', sans-serif" fontWeight="800" fontSize="46" fill="#5E3F97">₹</text>
-                </svg>
+                <img
+                  src="/logos/emblem.png"
+                  alt="Budget Mitra emblem"
+                  className="rupee-emblem"
+                />
               </div>
               <h1 className="budget-title">
                 <span className="bt-blue">BUDGET</span>
