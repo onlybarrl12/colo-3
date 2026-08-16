@@ -42,33 +42,7 @@ body{
   z-index:3;
 }
 .header-left{display:flex;align-items:center;gap:14px}
-.iol-logo{display:flex;flex-direction:column;align-items:center;gap:4px}
-.iol-mark{
-  width:56px;height:56px;border-radius:50%;
-  background:radial-gradient(circle at 50% 45%, #F39A55 0%, #E97F3A 55%, #D95F1B 100%);
-  display:grid;place-items:center;
-  box-shadow:inset 0 0 0 3px #ffffff, 0 0 0 1px #E97F3A;
-  position:relative;
-}
-.iol-mark::before{
-  content:"";
-  position:absolute;
-  inset:5px;
-  border-radius:50%;
-  border:2px solid #ffffff;
-}
-.iol-hindi{
-  font-family:'Noto Sans Devanagari','Poppins',sans-serif;
-  font-size:10px;
-  font-weight:700;
-  color:#ffffff;
-  letter-spacing:0.3px;
-  z-index:1;
-}
-.iol-mark.small{width:36px;height:36px}
-.iol-mark.small::before{inset:3px;border-width:1.5px}
-.iol-mark.small .iol-hindi{font-size:6px}
-
+.iol-svg{display:block;flex-shrink:0}
 .iol-title-main{
   font-family:'Poppins',sans-serif;
   font-weight:700;
@@ -88,32 +62,15 @@ body{
 }
 
 .header-right{display:flex;align-items:center;gap:20px}
-.sprint-block{display:flex;align-items:center;gap:8px}
-.sprint-runner{display:grid;place-items:center;margin-right:-6px}
-.sprint-text{display:flex;flex-direction:column;align-items:flex-start}
-.sprint-word{
-  font-family:'Poppins',sans-serif;
-  font-weight:800;
-  font-size:30px;
-  color:var(--iol-blue);
-  line-height:1;
-  letter-spacing:-0.5px;
-}
-.sprint-tag{
-  margin-top:4px;
-  background:var(--brand-orange);
-  color:#fff;
-  font-size:9.5px;
-  font-weight:600;
-  padding:3px 10px;
-  border-radius:2px;
-  letter-spacing:0.4px;
-}
+.sprint-block{display:flex;align-items:center}
+.sprint-logo{display:flex;align-items:center}
+.sprint-svg{display:block}
 .header-iol-small{display:flex;flex-direction:column;align-items:center;gap:2px}
 .header-iol-small-text{
-  font-size:8.5px;
+  font-size:9px;
   color:var(--iol-blue);
   font-weight:600;
+  letter-spacing:0.2px;
 }
 
 /* ============ Main login shell ============ */

@@ -6,6 +6,144 @@ import "@/App.css";
 const DEMO_EMPLOYEE = "BM-2024-001";
 const DEMO_PASSWORD = "budgetmitra";
 
+/* --------- Accurate IndianOil circular logo (SVG) --------- */
+function IndianOilLogo({ size = 60 }) {
+  return (
+    <svg
+      viewBox="0 0 120 120"
+      width={size}
+      height={size}
+      aria-label="IndianOil logo"
+      className="iol-svg"
+    >
+      <defs>
+        <radialGradient id="iolBg" cx="50%" cy="42%" r="60%">
+          <stop offset="0%" stopColor="#FFC98A" />
+          <stop offset="55%" stopColor="#F39A55" />
+          <stop offset="100%" stopColor="#D95F1B" />
+        </radialGradient>
+      </defs>
+      {/* outer golden ring */}
+      <circle cx="60" cy="60" r="58" fill="url(#iolBg)" />
+      <circle cx="60" cy="60" r="53" fill="none" stroke="#ffffff" strokeWidth="2" opacity="0.85" />
+
+      {/* Red trishul / flame emblem (centered around 60,52) */}
+      <g transform="translate(60 34)" fill="#B0231A">
+        {/* center prong */}
+        <path d="M-2.2 0 L2.2 0 L2.8 28 L-2.8 28 Z" />
+        <path d="M0 -4 L4 6 L-4 6 Z" />
+        {/* left prong */}
+        <path d="M-9 6 C -14 10 -15 18 -12 28 L -8 28 C -10 20 -8 14 -5 10 Z" />
+        <path d="M-12 2 L-8 8 L-14 10 Z" />
+        {/* right prong */}
+        <path d="M9 6 C 14 10 15 18 12 28 L 8 28 C 10 20 8 14 5 10 Z" />
+        <path d="M12 2 L8 8 L14 10 Z" />
+        {/* base horizontal bar */}
+        <rect x="-13" y="28" width="26" height="4" rx="1.5" />
+        {/* drop below */}
+        <path d="M-7 32 L7 32 L4.5 40 L-4.5 40 Z" />
+      </g>
+
+      {/* Hindi text along bottom curve */}
+      <path id="iolCurve" d="M 20 82 A 42 42 0 0 0 100 82" fill="none" />
+      <text
+        fontSize="11"
+        fontWeight="700"
+        fill="#ffffff"
+        fontFamily="'Noto Sans Devanagari', sans-serif"
+        letterSpacing="0.3"
+      >
+        <textPath href="#iolCurve" startOffset="50%" textAnchor="middle">
+          इंडियनऑयल
+        </textPath>
+      </text>
+    </svg>
+  );
+}
+
+/* --------- SPRINT logo (runner + wordmark + tagline) --------- */
+function SprintLogo() {
+  return (
+    <svg
+      viewBox="0 0 320 96"
+      width="300"
+      height="72"
+      aria-label="SPRINT — A Transformational Project"
+      className="sprint-svg"
+    >
+      <defs>
+        <linearGradient id="runnerGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#F0A75B" />
+          <stop offset="100%" stopColor="#D95F1B" />
+        </linearGradient>
+      </defs>
+
+      {/* Dotted particle trail */}
+      <g fill="#E97F3A">
+        <circle cx="6"  cy="58" r="2.2" opacity="0.35"/>
+        <circle cx="14" cy="64" r="2.4" opacity="0.5"/>
+        <circle cx="24" cy="70" r="2.6" opacity="0.6"/>
+        <circle cx="12" cy="74" r="2"  opacity="0.4"/>
+        <circle cx="26" cy="82" r="2.4" opacity="0.55"/>
+        <circle cx="4"  cy="68" r="1.6" opacity="0.3"/>
+        <circle cx="20" cy="54" r="1.8" opacity="0.35"/>
+        <circle cx="36" cy="78" r="2.2" opacity="0.5"/>
+        <circle cx="42" cy="86" r="1.8" opacity="0.4"/>
+        <circle cx="32" cy="88" r="1.6" opacity="0.35"/>
+      </g>
+
+      {/* Stylised runner silhouette leaning forward */}
+      <g fill="url(#runnerGrad)">
+        {/* head */}
+        <circle cx="82" cy="18" r="8"/>
+        {/* torso, front arm reaching, back leg */}
+        <path d="
+          M74 28
+          L96 26
+          L104 34
+          L118 30
+          L120 36
+          L104 42
+          L98 54
+          L110 74
+          L104 80
+          L90 62
+          L74 80
+          L64 76
+          L80 58
+          L74 46
+          L64 42
+          L66 34
+          Z" />
+        {/* trailing back arm */}
+        <path d="M74 32 L58 44 L52 42 L50 46 L64 50 L78 40 Z"/>
+      </g>
+
+      {/* SPRINT wordmark */}
+      <text
+        x="140" y="52"
+        fontFamily="'Poppins', sans-serif"
+        fontWeight="800"
+        fontSize="42"
+        fill="#1F3C88"
+        letterSpacing="-1.5"
+      >SPRINT</text>
+
+      {/* Tagline banner */}
+      <rect x="140" y="60" width="175" height="20" rx="2" fill="#E97F3A"/>
+      <text
+        x="227" y="74"
+        textAnchor="middle"
+        fontFamily="'Poppins', sans-serif"
+        fontWeight="600"
+        fontSize="10"
+        fill="#ffffff"
+        letterSpacing="0.3"
+      >A Transformational Project</text>
+    </svg>
+  );
+}
+
 function App() {
   const [employeeNo, setEmployeeNo] = useState("");
   const [password, setPassword] = useState("");
@@ -38,11 +176,7 @@ function App() {
       {/* Top header bar */}
       <header className="top-header" data-testid="top-header">
         <div className="header-left">
-          <div className="iol-logo" aria-label="IndianOil logo">
-            <div className="iol-mark">
-              <span className="iol-hindi">इंडियनऑयल</span>
-            </div>
-          </div>
+          <IndianOilLogo size={62} />
           <div className="iol-title">
             <div className="iol-title-main">IndianOil</div>
             <div className="iol-title-sub">The Energy Of India</div>
@@ -50,31 +184,10 @@ function App() {
         </div>
         <div className="header-right">
           <div className="sprint-block">
-            <div className="sprint-runner" aria-hidden="true">
-              <svg viewBox="0 0 64 64" width="46" height="46">
-                <g fill="#E97F3A">
-                  <circle cx="46" cy="12" r="5"/>
-                  <path d="M38 22 L48 22 L52 30 L58 32 L56 36 L48 34 L44 42 L50 52 L46 56 L38 46 L32 42 L24 52 L20 50 L28 40 L26 32 L18 34 L14 30 L22 26 Z"/>
-                </g>
-                <g fill="#E97F3A" opacity="0.55">
-                  <circle cx="14" cy="30" r="1.6"/>
-                  <circle cx="10" cy="36" r="1.6"/>
-                  <circle cx="6" cy="42" r="1.6"/>
-                  <circle cx="16" cy="42" r="1.6"/>
-                  <circle cx="10" cy="48" r="1.6"/>
-                  <circle cx="20" cy="46" r="1.6"/>
-                </g>
-              </svg>
-            </div>
-            <div className="sprint-text">
-              <div className="sprint-word">SPRINT</div>
-              <div className="sprint-tag">A Transformational Project</div>
-            </div>
+            <SprintLogo />
           </div>
           <div className="header-iol-small" aria-label="IndianOil small logo">
-            <div className="iol-mark small">
-              <span className="iol-hindi">इंडियनऑयल</span>
-            </div>
+            <IndianOilLogo size={38} />
             <div className="header-iol-small-text">IndianOil</div>
           </div>
         </div>
