@@ -28,7 +28,7 @@ html,body,#root{margin:0;padding:0;height:100%}
 body{
   font-family:'Manrope','Sora',system-ui,-apple-system,sans-serif;
   color:var(--ink);
-  background:#F5F7FA;
+  background:#E9EEF3;
   -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
 }
@@ -37,7 +37,7 @@ body{
   min-height:100vh;
   display:flex;
   flex-direction:column;
-  background:#F5F7FA;
+  background:#E9EEF3;
   animation:page-fade-in .6s ease-out both;
 }
 @keyframes page-fade-in{
@@ -79,9 +79,9 @@ body{
   grid-template-columns:minmax(0, 1.05fr) minmax(460px, 0.95fr);
   position:relative;isolation:isolate;overflow:hidden;
   background:
-    radial-gradient(1000px 700px at 20% 15%, rgba(10,37,64,0.035) 0%, transparent 60%),
-    radial-gradient(900px 600px at 85% 85%, rgba(233,120,36,0.025) 0%, transparent 60%),
-    #F5F7FA;
+    radial-gradient(1000px 700px at 20% 15%, rgba(10,37,64,0.04) 0%, transparent 60%),
+    radial-gradient(900px 600px at 85% 85%, rgba(233,120,36,0.03) 0%, transparent 60%),
+    #E9EEF3;
 }
 
 /* Decorative background layers — subtle premium orbs */
